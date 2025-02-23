@@ -11,6 +11,12 @@ def custom_resize(scale_percent,image):
     image = cv2.resize(image,dim)
     return image
 
+def custom_resize_w(scale_percent,image):
+    width = int(image.shape[1]*scale_percent/100)
+    height = int(image.shape[0])
+    dim = (width,height)
+    image = cv2.resize(image,dim)
+    return image
 
 def detect_and_match_features(img1, img2):
 
@@ -196,7 +202,36 @@ panorama = feather_blend_two_images(panorama, warped_right)
 
 # place_image_on_canvas(canvas, warped_left, (0, 0))
 # place_image_on_canvas(canvas, img2, (0, 0))
+# plt.figure(figsize=(30,10))
+# plt.show()
+plt.figure(figsize=(30,10))
 
+plt.subplot(2,3,1)
+plt.title("Image 1")
+plt.imshow(cv2.cvtColor(img1,cv2.COLOR_BGR2RGB))
+
+plt.subplot(2,3,2)
+plt.title("Image 2")
+plt.imshow(cv2.cvtColor(img2,cv2.COLOR_BGR2RGB))
+
+plt.subplot(2,3,3)
+plt.title("Image 3")
+plt.imshow(cv2.cvtColor(img3,cv2.COLOR_BGR2RGB))
+
+# plt.figure(figsize=(30, 30))
+plt.subplot(2,3,5)
+plt.title("PANAROMA1")
+plt.imshow(cv2.cvtColor(panorama,cv2.COLOR_BGR2RGB))
+
+# plt.subplot(2,3,5)
+# plt.title("PANAROMA2")
+# plt.imshow(cv2.cvtColor(panorama2,cv2.COLOR_BGR2RGB))
+
+# plt.subplot(2,3,6)
+# plt.title("PANAROMA")
+# plt.imshow(cv2.cvtColor(panorama_final,cv2.COLOR_BGR2RGB))
+
+plt.show()
 
 """
 panorama1 = stitch_images(img2, img1)
@@ -209,38 +244,12 @@ if panorama1 is not None and panorama2 is not None:
     if panorama_final is not None:
         cv2.imwrite("panorama.jpg", panorama_final)
 
-        plt.figure(figsize=(30,10))
-
-        plt.subplot(2,3,1)
-        plt.title("Image 1")
-        plt.imshow(cv2.cvtColor(img1,cv2.COLOR_BGR2RGB))
-
-        plt.subplot(2,3,2)
-        plt.title("Image 2")
-        plt.imshow(cv2.cvtColor(img2,cv2.COLOR_BGR2RGB))
-
-        plt.subplot(2,3,3)
-        plt.title("Image 3")
-        plt.imshow(cv2.cvtColor(img3,cv2.COLOR_BGR2RGB))
-
-        plt.subplot(2,3,4)
-        plt.title("PANAROMA1")
-        plt.imshow(cv2.cvtColor(panorama1,cv2.COLOR_BGR2RGB))
-
-        plt.subplot(2,3,5)
-        plt.title("PANAROMA2")
-        plt.imshow(cv2.cvtColor(panorama2,cv2.COLOR_BGR2RGB))
-
-        plt.subplot(2,3,6)
-        plt.title("PANAROMA")
-        plt.imshow(cv2.cvtColor(panorama_final,cv2.COLOR_BGR2RGB))
-
-        plt.show()
+        
     else:
         print("Image stitching failed for third image!")
 else:
     print("Image stitching failed for first two images!")
 """
-cv2.imshow("pano",panorama)
-cv2.waitKey()
-cv2.destroyAllWindows()
+# cv2.imshow("pano",panorama)
+# cv2.waitKey()
+# cv2.destroyAllWindows()
