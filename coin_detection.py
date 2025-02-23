@@ -10,11 +10,12 @@ def detect_coins(image_path):
     og_image = image.copy()
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     
+    # edge detection
     blurred = cv2.GaussianBlur(gray, (11, 11), 0)
     edges = cv2.Canny(blurred, 30, 60)
     edges_colored = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
     
-    # Changing white pixels to green
+    # visualizing edges
     edges_colored[np.where((edges_colored == [255, 255, 255]).all(axis=2))] = [0, 255, 0]
 
     overlay = cv2.addWeighted(image, 1, edges_colored, 1, 0)
@@ -23,6 +24,7 @@ def detect_coins(image_path):
     ret, thresh1 = cv2.threshold(gray, 120, 255, cv2.THRESH_BINARY) 
     ret, thresh2 = cv2.threshold(gray, 120, 255, cv2.THRESH_BINARY_INV) 
     
+    # contour detection and drawing
     contours, _ = cv2.findContours(thresh2, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
     filtered_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > 500]
@@ -30,6 +32,7 @@ def detect_coins(image_path):
     im2 = np.zeros_like(gray)  
     cv2.drawContours(im2, filtered_contours, -1, (255, 255, 255), cv2.FILLED) 
 
+    # watershed algo for touching coins
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
 
     sure_bg = cv2.dilate(im2, kernel, iterations=3)
@@ -81,4 +84,4 @@ def detect_coins(image_path):
     plt.show()
 
 # Example usage
-detect_coins('coins/coins8.jpeg')
+detect_coins('coins/coins13.jpeg')
